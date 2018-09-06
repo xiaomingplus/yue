@@ -6,9 +6,14 @@ new Yue({
     },
     created(){
         console.log('created vm');
+        setTimeout(() => {
+            this.message = 'Hello Yue'  
+        }, 1000);
+    },
+    mounted(){
+        console.log('mouted');
     },
     render(h) {
-        console.log('this render',this);
         return h('div',null,this.message);
     }
 }).$mount('#root');

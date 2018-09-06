@@ -7,6 +7,12 @@ export function render(yElement,mountElement){
     return element;
 }
 
+export function update(oldDomElement,newYElement,mountElement){
+    let parentDomElement = oldDomElement.parentElement;
+    parentDomElement.removeChild(oldDomElement);
+    render(newYElement,mountElement)
+}
+
 function renderPureJsElement(yElement){
         //获取yElement
         if(!yElement || !yElement.validYElement || !yElement.validYElement()){
