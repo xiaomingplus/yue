@@ -2,9 +2,13 @@ import Yue from 'yue';
 
 new Yue({
     data:{
-        testRoot:2
+        message:"Hello World"
     },
-    render: (h) => {
-        return h('div',null,'Hellow world');
+    created(){
+        console.log('created vm');
+    },
+    render(h) {
+        console.log('this render',this);
+        return h('div',null,this.message);
     }
 }).$mount('#root');
