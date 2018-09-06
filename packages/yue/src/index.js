@@ -1,1 +1,2 @@
-console.log('test');
+import {Yue} from './core';
+export default Yue;
