@@ -1,8 +1,8 @@
 import {debug} from '../util/log'; 
 import {initLife} from './instance';
 import {mount} from './dom';
-import {handleData} from './data';
-import {handleWatcher} from './watch'
+import {handleState} from './state';
+import {handleWatcher} from './watch';
 class Yue{
     $mount(el){
         mount(this,el);
@@ -14,12 +14,17 @@ class Yue{
             return createElement('div',null,'');
         };
         let data = props.data || {};
+
+        //初始化watch
         handleWatcher(this);
 
-        handleData(this,data);
+        //初始化 state
+        handleState(this,data);
 
         //初始化生命周期
         initLife(this);
+
+
     }
 }
 

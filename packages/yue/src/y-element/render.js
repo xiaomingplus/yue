@@ -1,3 +1,6 @@
+import YElement from './yElement';
+import {warn} from '../util/log';
+import {createElement} from './yElement';
 //这是个有副作用的函数
 //传入一个yElemnt，然后render负责把他真实的渲染到dom上
 //返回一个真实的js创建的Elemnet对象
@@ -11,10 +14,16 @@ export function render(yElement,mountElement){
     return element;
 }
 
-export function update(oldDomElement,newYElement,mountElement){
-    let parentDomElement = oldDomElement.parentElement;
-    parentDomElement.removeChild(oldDomElement);
-    render(newYElement,mountElement)
+export function update(vm,oldDomElement,renderFunc,mountElement){
+    if(oldDomElement && oldDomElement.parentElement){
+        let parentDomElement = oldDomElement.parentElement;
+        parentDomElement.removeChild(oldDomElement);
+        return render(renderFunc.call(vm,createElement),mountElement)
+    }else{
+        warn('no mounted element');
+        return null;
+    }
+
 }
 
 function renderPureJsElement(yElement){

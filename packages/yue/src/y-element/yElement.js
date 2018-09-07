@@ -38,3 +38,4 @@ class YElement {
 export function createElement(tagName,props,children) {
     return new YElement(tagName,props,children);
 }
+export default YElement;

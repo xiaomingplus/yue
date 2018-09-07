@@ -1,6 +1,6 @@
 import {proxy,removeProxy} from './proxy';
 import {createObserve} from './observe'
-export function handleData(vm,data){
+export function handleState(vm,data){
     let dataKeys = Object.keys(data);
     vm._data = {};
     dataKeys.forEach( key =>{
@@ -8,5 +8,5 @@ export function handleData(vm,data){
         proxy(vm,key);
     });
     //响应式
-    createObserve(vm,vm._data);
+    createObserve(vm._data,vm._watchCallback);
 }

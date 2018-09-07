@@ -1,19 +1,35 @@
-
+import {define} from '../util/object';
+import {yueArrayPrototype} from './array';
 class Observe {
     constructor(data,watchCallback) {
-        const keys = Object.keys(data);
-        keys.forEach(key => {
-            defineReactive(data,key,data[key],watchCallback)
-        })
+        this._watchCallback = watchCallback;
+        this.value = data;
+        this.dep = new Dep();//依赖收集
+        define(data, '__ob__', this);
+        if(Array.isArray(data)){
+            this.dep.subscribe(watchCallback)
+        }else{
+            //对象
+            const keys = Object.keys(data);
+            keys.forEach(key => {
+                defineReactive(this,data,key,data[key],watchCallback)
+            })
+        }
+
     }
 }
-
-export function createObserve(vm,data){
-    return new Observe(data,vm._watchCallback);
+/**
+ * 有副作用的一个函数
+ * 把传进来的对象observe化
+ * @param {}} vm 
+ * @param {*} data 
+ */
+export function createObserve(data,_watchCallback){
+    return new Observe(data,_watchCallback);
 }
 
-function defineReactive(data,key,value,watchCallback){
-    const dep = new Dep();//收集依赖
+function defineReactive(self,data,key,value,watchCallback){
+    const dep = new Dep();//依赖收集
     Object.defineProperty(data,key,{
         enumerable:true,
         configurable:true,
@@ -27,6 +43,12 @@ function defineReactive(data,key,value,watchCallback){
             dep.notify();
         }
     })
+    //如果值是数组，特殊处理下
+    if(Array.isArray(value)){
+        //再new一个 Objserve
+        let arrayObserver = createObserve(value,self._watchCallback);//暂时用祖先的watch
+        value.__proto__ = yueArrayPrototype;//设置原型链方法
+    }
 }
 
 class Dep {
