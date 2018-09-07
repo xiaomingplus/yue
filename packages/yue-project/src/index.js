@@ -17,7 +17,6 @@ new Yue({
         this.list.push('mounted')
     },
     render(h) {
-        
         return h('div', null, [
             h('div', null, this.message),
             h('div', null, [
