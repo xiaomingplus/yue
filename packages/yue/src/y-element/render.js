@@ -3,6 +3,10 @@
 //返回一个真实的js创建的Elemnet对象
 export function render(yElement,mountElement){
     let element = renderPureJsElement(yElement);
+    //先remove掉所有已有的子节点
+    while (mountElement.firstChild) {
+        mountElement.removeChild(mountElement.firstChild);
+    }
     mountElement.appendChild(element);
     return element;
 }
