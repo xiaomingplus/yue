@@ -1,4 +1,4 @@
-import {define} from '../util/object';
+import {define,isObject} from '../util/object';
 import {yueArrayPrototype} from './array';
 class Observe {
     constructor(data,watchCallback) {
@@ -48,6 +48,9 @@ function defineReactive(self,data,key,value,watchCallback){
         //再new一个 Objserve
         let arrayObserver = createObserve(value,self._watchCallback);//暂时用祖先的watch
         value.__proto__ = yueArrayPrototype;//设置原型链方法
+    }else if(isObject(value)){
+        //如果是对象,递归react化
+        createObserve(value,self._watchCallback);
     }
 }
 

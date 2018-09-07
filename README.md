@@ -46,3 +46,9 @@ new Yue({
     npm run dev
 
 将会打开初始页面
+
+## TODO
+
+1. 优化渲染次数，按照tick来
+2. 优化虚拟dom diff，只渲染变化的部分
+3. 优化depend
