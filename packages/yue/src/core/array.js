@@ -6,7 +6,12 @@ function getArrayLikeProto() {
     //初始化array
     const patchedMethods = [
         'push',
-        'pop'
+        'pop',
+        'shift',
+        'unshift',
+        'splice',
+        'sort',
+        'reverse'
     ]
     const arrayProto = Array.prototype;
     const arrayMethods = Object.create(arrayProto);

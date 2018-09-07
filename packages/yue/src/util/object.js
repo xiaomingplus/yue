@@ -9,3 +9,12 @@ export function define (obj, key, val, enumerable) {
       configurable: true
     })
   }
+
+/**
+ * Quick object check - this is primarily used to tell
+ * Objects from primitive values when we know the value
+ * is a JSON-compliant type.
+ */
+export function isObject (obj) {
+    return obj !== null && typeof obj === 'object'
+  }
