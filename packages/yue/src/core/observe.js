@@ -8,7 +8,13 @@ class Observe {
         this.dep = new Dep();//依赖收集
         define(data, '__ob__', this);
         if(Array.isArray(data)){
-            this.dep.subscribe(watcher)
+            this.dep.subscribe(watcher);//注册watcher
+            //递归每一项
+            data.forEach(item=>{
+                if(isObject(item)){
+                    createObserve(item,watcher);//暂时用祖先的watch
+                }
+            })
         }else{
             //对象
             const keys = Object.keys(data);

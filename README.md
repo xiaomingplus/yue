@@ -37,6 +37,7 @@ new Yue({
         ]);
     }
 }).$mount('#root');
+
 ```
 ## 如何开发
 
@@ -54,5 +55,5 @@ new Yue({
 3. 优化depend
 4. 支持组件功能
 5. 支持$nextTick
-6. 支持updated生命周期
-7. 支持数组里复杂的对象
+6. 支持updated生命周期 ---- done
+7. 支持数组里复杂的对象 ---- done
