@@ -8,5 +8,5 @@ export function handleState(vm,data){
         proxy(vm,key);
     });
     //响应式
-    createObserve(vm._data,vm._watchCallback);
+    createObserve(vm._data,vm._watcher);
 }

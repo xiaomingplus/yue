@@ -21,6 +21,7 @@ new Yue({
         this.list.push('mounted')
     },
     render(h) {
+        console.log('render')
         return h('div', null, [
             h('div', null, `${this.user.name},${this.message}`),
             h('div', null, [
