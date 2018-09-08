@@ -49,6 +49,9 @@ new Yue({
 
 ## TODO
 
-1. 优化渲染次数，按照tick来
+1. 优化渲染次数，按照tick来 ----- done
 2. 优化虚拟dom diff，只渲染变化的部分
 3. 优化depend
+4. 支持组件功能
+5. 支持$nextTick
+6. 支持updated生命周期
