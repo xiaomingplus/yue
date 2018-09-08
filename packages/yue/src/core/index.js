@@ -3,7 +3,7 @@ import {initLife} from './instance';
 import {mount} from './dom';
 import {handleState} from './state';
 import {handleWatcher} from './watch';
-import {callLifeHook} from '../hook'
+import {callLifeHook} from './hook'
 
 class Yue{
     $mount(el){
@@ -11,7 +11,6 @@ class Yue{
     }
     constructor(props) {
         debug('init props',props);
-        callLifeHook(this,'beforeCreate');
         this.$options = props;
         let renderFunc = props.render || function(){
             return createElement('div',null,'');
@@ -23,7 +22,8 @@ class Yue{
 
         //初始化 state
         handleState(this,data);
-
+        
+        callLifeHook(this,'beforeCreate');
         //初始化生命周期
         initLife(this);
 

@@ -20,9 +20,9 @@ new Yue({
             this.user.name = 'xiaomingplus'
         }, 1000);
     },
-    beforeMounted(){
-        console.log('beforeMounted');
-        this.list.push('beforeMounted')
+    beforeMount(){
+        console.log('beforeMount');
+        this.list.push('beforeMount')
     },
     mounted() {
         console.log('mouted');

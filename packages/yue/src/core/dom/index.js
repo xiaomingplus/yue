@@ -9,7 +9,7 @@ export function mount(vm,el){
         
         vm._update();
     }else{
-        callLifeHook(this,'beforeMounted');
+        callLifeHook(vm,'beforeMount');
         vm._mountedElement = el;
         vm._realRootElement = render(vm._yNode,el);
         //首次
