@@ -3,12 +3,15 @@ import {initLife} from './instance';
 import {mount} from './dom';
 import {handleState} from './state';
 import {handleWatcher} from './watch';
+import {callLifeHook} from '../hook'
+
 class Yue{
     $mount(el){
         mount(this,el);
     }
     constructor(props) {
         debug('init props',props);
+        callLifeHook(this,'beforeCreate');
         this.$options = props;
         let renderFunc = props.render || function(){
             return createElement('div',null,'');

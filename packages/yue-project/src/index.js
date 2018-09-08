@@ -8,6 +8,10 @@ new Yue({
         },
         list: []
     },
+    beforeCreate(){
+        console.log('beforeCreate');
+        this.list.push('beforeCreate');
+    },
     created() {
         console.log('created vm');
         this.list.push('created');
@@ -16,9 +20,19 @@ new Yue({
             this.user.name = 'xiaomingplus'
         }, 1000);
     },
+    beforeMounted(){
+        console.log('beforeMounted');
+        this.list.push('beforeMounted')
+    },
     mounted() {
         console.log('mouted');
         this.list.push('mounted')
+    },
+    beforeUpdate(){
+        console.log('beforeUpdate');
+    },
+    updated(){
+        console.log('updated');
     },
     render(h) {
         console.log('render')
