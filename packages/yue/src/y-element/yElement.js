@@ -11,11 +11,17 @@ class YElement {
     }
     constructor(tagName,props,children) {
         //为啥叫yElemnet?因为我姓杨
-        this._isYElement = true;
-        this.tagName = tagName;
-        this.props = props || {};
-        this.children = children || [];
-        this.init()
+        if(typeof tagName === 'string'){
+            this._isYElement = true;
+            this.tagName = tagName;
+            this.props = props || {};
+            this.children = children || [];
+            this.init()
+        }else if(YElement.isYElement(tagName)){
+            //如果是组件
+            console.log('是组件');
+        }
+
     }
     init(){
         //还没想好要初始啥
