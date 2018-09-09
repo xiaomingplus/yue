@@ -21,12 +21,8 @@ class Yue{
     }
 
     constructor(props) {
-        
         debug('init props',props);
         this.$options = props;
-        let renderFunc = props.render || function(){
-            return createElement('div',null,'');
-        };
         let data = props.data || {};
         this._yid = yid++;
         //初始化watch

@@ -59,7 +59,11 @@ const YueClass = Yue.extend({
             h('div', null, [
                 h('h3', null, '代办列表'),
                 h('ul', null, this.todos.map((item) => {
-                    return h('li', null, item.title);
+                    return h('li', {
+                        props:{
+                            title:item.title
+                        }
+                    }, item.title);
                 }))
             ])
         ]);

@@ -1,3 +1,4 @@
+import { isObject } from '../util/object';
 class YElement {
     static isYElement(yEelment) {
         if(yEelment && yEelment instanceof YElement){
@@ -9,7 +10,8 @@ class YElement {
     static diff(oldYElement,newYElement){
     
     }
-    constructor(tagName,props,children) {
+    constructor(ctx,tagName,props,children) {
+        console.log('tagName',tagName);
         //为啥叫yElemnet?因为我姓杨
         if(typeof tagName === 'string'){
             this._isYElement = true;
@@ -17,9 +19,10 @@ class YElement {
             this.props = props || {};
             this.children = children || [];
             this.init()
-        }else if(YElement.isYElement(tagName)){
+        }else if(isObject(tagName)){
             //如果是组件
             console.log('是组件');
+            return createComponent(tagName,props,children,ctx);
         }
 
     }
@@ -41,7 +44,21 @@ class YElement {
 
 }
 //返回一个yElement
-export function createElement(tagName,props,children) {
-    return new YElement(tagName,props,children);
+export function createElement(ctx,tagName,props,children) {
+    return new YElement(ctx,tagName,props,children);
+}
+export function createComponent(ctx,componentConfig,props,children){
+    let propsData = {};
+    if(props){
+        propsData = props.props || {};
+    }
+    componentConfig = Object.assign(componentConfig,{
+        props:propsData
+    });
+    let ComponentClass = ctx.extend(tagName);
+    let componentInstanse = new ComponentClass();
+    let options = componentInstanse.$options;
+    let renderFunc = options.render;
+    return renderFunc.call(componentInstanse,createElement)
 }
 export default YElement;

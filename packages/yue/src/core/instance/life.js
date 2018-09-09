@@ -6,7 +6,7 @@ export function initLife(vm){
     let options = vm.$options;
     callLifeHook(vm,'created')
     let renderFunc = options.render;
-    vm._yNode = renderFunc.call(vm,createElement);
+    vm._yNode = renderFunc.call(vm,createElement.bind(vm,vm));
     vm._update = function(){
         callLifeHook(vm,'beforeUpdate');
         vm._realRootElement = update(vm,vm._realRootElement,renderFunc,vm._mountedElement)
