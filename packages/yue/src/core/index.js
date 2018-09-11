@@ -19,10 +19,10 @@ class Yue{
         }
 
     }
-
     constructor(props) {
         debug('init props',props);
-        this.$options = props;
+        this.$options = Object.assign(props,this.constructor.options);
+        console.log('$options',this.$options);
         let data = props.data || {};
         this._yid = yid++;
         //初始化watch
@@ -42,6 +42,9 @@ class Yue{
     }
 }
 
+Yue.options = {
+    _base:Yue
+}
 export {
     Yue
 }

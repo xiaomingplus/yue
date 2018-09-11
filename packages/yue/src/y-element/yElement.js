@@ -1,4 +1,5 @@
 import { isObject } from '../util/object';
+let componentId = 0;
 class YElement {
     static isYElement(yEelment) {
         if(yEelment && yEelment instanceof YElement){
@@ -10,19 +11,17 @@ class YElement {
     static diff(oldYElement,newYElement){
     
     }
-    constructor(ctx,tagName,props,children) {
-        console.log('tagName',tagName);
+    constructor(ctx,tagName,data,children) {
         //为啥叫yElemnet?因为我姓杨
         if(typeof tagName === 'string'){
             this._isYElement = true;
             this.tagName = tagName;
-            this.props = props || {};
+            this.data = data || {};
             this.children = children || [];
             this.init()
         }else if(isObject(tagName)){
             //如果是组件
-            console.log('是组件');
-            return createComponent(tagName,props,children,ctx);
+            return createComponent(ctx,tagName,data,children);
         }
 
     }
@@ -32,8 +31,8 @@ class YElement {
     getTagName(){
         return this.tagName;
     }
-    getProps(){
-        return this.props;
+    getData(){
+        return this.data;
     }
     getChildren(){
         return this.children;
@@ -44,8 +43,8 @@ class YElement {
 
 }
 //返回一个yElement
-export function createElement(ctx,tagName,props,children) {
-    return new YElement(ctx,tagName,props,children);
+export function createElement(ctx,tagName,data,children) {
+    return new YElement(ctx,tagName,data,children);
 }
 export function createComponent(ctx,componentConfig,props,children){
     let propsData = {};
@@ -55,10 +54,14 @@ export function createComponent(ctx,componentConfig,props,children){
     componentConfig = Object.assign(componentConfig,{
         props:propsData
     });
-    let ComponentClass = ctx.extend(tagName);
+    // console.log('ctx.extend',ctx.$options);
+    let baseCrl = ctx.$options._base;
+    let ComponentClass = baseCrl.extend(componentConfig);
     let componentInstanse = new ComponentClass();
     let options = componentInstanse.$options;
     let renderFunc = options.render;
+    componentId++;
     return renderFunc.call(componentInstanse,createElement)
+    return new YElement(ctx,`yue-component-${componentId}`);
 }
 export default YElement;

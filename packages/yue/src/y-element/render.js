@@ -18,7 +18,7 @@ export function update(vm,oldDomElement,renderFunc,mountElement){
     if(oldDomElement && oldDomElement.parentElement){
         let parentDomElement = oldDomElement.parentElement;
         parentDomElement.removeChild(oldDomElement);
-        return render(renderFunc.call(vm,createElement),mountElement)
+        return render(renderFunc.call(vm,createElement.bind(vm,vm)),mountElement)
     }else{
         warn('no mounted element');
         return null;
@@ -32,14 +32,14 @@ function renderPureJsElement(yElement){
             throw new Error('not a yElement');
         }
         let tagName = yElement.getTagName();
-        let props = yElement.getProps();
+        let data = yElement.getData();
+        let attr = data.attr || {};
         let children = yElement.getChildren();
 
         let element = document.createElement(tagName);
-        let propsData = props || {};
-        let propKeys = Object.keys(propsData);
-        propKeys.forEach(propKey => {
-            element.setAttribute(propKey,propsData[propKey]);
+        let attrKeys = Object.keys(attr);
+        attrKeys.forEach(attrKey => {
+            element.setAttribute(attrKey,attr[attr]);
         });
 
         if(Array.isArray(children)){

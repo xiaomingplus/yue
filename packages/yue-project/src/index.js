@@ -1,6 +1,6 @@
 import Yue from 'yue';
 import TodoItem from './components/item'
-const YueClass = Yue.extend({
+new Yue({
     data: {
         message: "Hello World",
         user:{
@@ -68,6 +68,4 @@ const YueClass = Yue.extend({
             ])
         ]);
     }
-});
-
-new YueClass().$mount('#root');
+}).$mount('#root');
