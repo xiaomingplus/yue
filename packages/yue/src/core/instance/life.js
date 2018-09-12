@@ -6,10 +6,10 @@ export function initLife(vm){
     let options = vm.$options;
     callLifeHook(vm,'created')
     let renderFunc = options.render;
-    vm._yElement = renderFunc.call(vm,createElement.bind(vm,vm));
+    vm._yElement = renderFunc.call(vm,createElement.bind(vm,vm));//相当于vue的vnode
     vm._update = function(){
         callLifeHook(vm,'beforeUpdate');
-        vm._realElement = update(vm,vm._realElement,renderFunc,vm._mountedElement)
+        update(vm)
         callLifeHook(vm,'updated');
     }
 

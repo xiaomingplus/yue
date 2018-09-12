@@ -1,5 +1,6 @@
 export default {
     render(h){
-        return h('div',null,'test')
+        console.log('thisxxx',this);
+        return h('li',null,this.title)
     }
 }

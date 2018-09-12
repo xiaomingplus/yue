@@ -47,7 +47,6 @@ new Yue({
         console.log('updated');
     },
     render(h) {
-        console.log('render')
         return h('div', null, [
             h('h2', null, `${this.user.name},${this.message}`),
             h('div', null, [

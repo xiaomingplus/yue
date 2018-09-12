@@ -57,18 +57,21 @@ export function createComponent(vm,tagName,data,children,options){
         propsData = data.props || {};
     }
     let componentConfig = Object.assign(tagName,{
-        props:propsData,
+        propsData:propsData,
         _realParentElement:vm._realElement,//内部参数
     });
     let hooks = {
-        init:(yElement)=>{
+        init:(yElement,realParentElement)=>{
             //init hooks,render的时候会被执行
             if(yElement.getComponentInstance()){
                 //已经初始化过了
                 console.log('已经初始了');//TODO
             }else{
                 let componentClass = yElement.getComponentClass();
-                new componentClass().$mount();//执行渲染
+                yElement.componentInstance = new componentClass({
+                    _realParentElement:realParentElement
+                });
+                yElement.componentInstance.$mount();//执行渲染
             }
         }
     };
