@@ -22,9 +22,9 @@ class Yue{
     constructor(props) {
         debug('init props',props);
         this.$options = Object.assign(props,this.constructor.options);
-        console.log('$options',this.$options);
         let data = props.data || {};
         this._yid = yid++;
+        this._realParentElement = this.$options._realParentElement;
         //初始化watch
         handleWatcher(this);
 

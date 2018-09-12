@@ -59,7 +59,7 @@ new Yue({
             h('div', null, [
                 h('h3', null, '代办列表'),
                 h('ul', null, this.todos.map((item) => {
-                    return h('li', {
+                    return h(TodoItem, {
                         props:{
                             title:item.title
                         }

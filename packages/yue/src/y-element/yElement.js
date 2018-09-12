@@ -11,22 +11,21 @@ class YElement {
     static diff(oldYElement,newYElement){
     
     }
-    constructor(ctx,tagName,data,children) {
+    constructor(vm,tagName,data,children,options) {
+        options = options || {};
         //为啥叫yElemnet?因为我姓杨
-        if(typeof tagName === 'string'){
             this._isYElement = true;
             this.tagName = tagName;
             this.data = data || {};
             this.children = children || [];
-            this.init()
-        }else if(isObject(tagName)){
-            //如果是组件
-            return createComponent(ctx,tagName,data,children);
-        }
-
+            this.componentClass = options.componentClass;
+            this.componentInstance = options.componentInstance;
     }
-    init(){
-        //还没想好要初始啥
+    getComponentClass(){
+        return this.componentClass;
+    }
+    getComponentInstance(){
+        return this.componentInstance;
     }
     getTagName(){
         return this.tagName;
@@ -43,25 +42,45 @@ class YElement {
 
 }
 //返回一个yElement
-export function createElement(ctx,tagName,data,children) {
-    return new YElement(ctx,tagName,data,children);
-}
-export function createComponent(ctx,componentConfig,props,children){
-    let propsData = {};
-    if(props){
-        propsData = props.props || {};
+export function createElement(vm,tagName,data,children,options) {
+    //判断是否组件
+    if(typeof tagName === 'string'){
+        return new YElement(vm,tagName,data,children,options);
+    }else{
+        return createComponent(vm,tagName,data,children,options);
     }
-    componentConfig = Object.assign(componentConfig,{
-        props:propsData
+}
+export function createComponent(vm,tagName,data,children,options){
+    options = options || {};
+    let propsData = {};
+    if(data){
+        propsData = data.props || {};
+    }
+    let componentConfig = Object.assign(tagName,{
+        props:propsData,
+        _realParentElement:vm._realElement,//内部参数
     });
-    // console.log('ctx.extend',ctx.$options);
-    let baseCrl = ctx.$options._base;
-    let ComponentClass = baseCrl.extend(componentConfig);
-    let componentInstanse = new ComponentClass();
-    let options = componentInstanse.$options;
-    let renderFunc = options.render;
+    let hooks = {
+        init:(yElement)=>{
+            //init hooks,render的时候会被执行
+            if(yElement.getComponentInstance()){
+                //已经初始化过了
+                console.log('已经初始了');//TODO
+            }else{
+                let componentClass = yElement.getComponentClass();
+                new componentClass().$mount();//执行渲染
+            }
+        }
+    };
+
+    let finalData = {
+        hooks:hooks,//用于render的时候执行的函数
+    }
+    let baseCrl = vm.$options._base;
+    let componentClass = baseCrl.extend(componentConfig);
     componentId++;
-    return renderFunc.call(componentInstanse,createElement)
-    return new YElement(ctx,`yue-component-${componentId}`);
+    return new YElement(vm,`yue-component-${componentId}`,finalData,undefined,{
+        componentClass:componentClass
+    });
 }
 export default YElement;
