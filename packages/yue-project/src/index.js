@@ -7,7 +7,8 @@ new Yue({
             name:'未知用户'
         },
         lifeList: [],
-        todos:[]
+        todos:[
+        ]
 
     },
     beforeCreate(){
@@ -62,7 +63,7 @@ new Yue({
                         props:{
                             title:item.title
                         }
-                    }, item.title);
+                    });
                 }))
             ])
         ]);

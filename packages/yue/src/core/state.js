@@ -5,12 +5,17 @@ import {isFunction} from '../util/function';
 import {error} from '../util/log';
 export function handleState(vm){
     let options = vm.$options;
+    let propsOptions = options.props || {};
+    let propsKeys = Object.keys(propsOptions);
+    propsKeys.forEach(propsKey=>{
+
+    })
     let propsData = options.propsData || {};
     let propsDataKeys = Object.keys(propsData);
-    vm._data = {};
+    vm._props = {};
     propsDataKeys.forEach( key =>{
-        vm._data[key] = propsData[key];
-        proxy(vm,key);
+        let value = propsData[key];
+        proxy(vm,key,value,'_props');
     });
 
     let data;
@@ -26,10 +31,11 @@ export function handleState(vm){
     }else{
         data = {}
     }
+    vm._data = {};
     let dataKeys = Object.keys(data);
     dataKeys.forEach( key =>{
         vm._data[key] = data[key];
-        proxy(vm,key);
+        proxy(vm,key,data[key],'_data');
     });
     //响应式
     createObserve(vm._data,vm._watcher);

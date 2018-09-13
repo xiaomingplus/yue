@@ -20,12 +20,16 @@ class YElement {
             this.children = children || [];
             this.componentClass = options.componentClass;
             this.componentInstance = options.componentInstance;
+            this.propsData =options.propsData;
     }
     getComponentClass(){
         return this.componentClass;
     }
     getComponentInstance(){
         return this.componentInstance;
+    }
+    getPropsData(){
+        return this.propsData;
     }
     getTagName(){
         return this.tagName;
@@ -54,10 +58,9 @@ export function createComponent(vm,tagName,data,children,options){
     options = options || {};
     let propsData = {};
     if(data){
-        propsData = data.props || {};
+        propsData = Object.assign({},data.props);
     }
     let componentConfig = Object.assign(tagName,{
-        propsData:propsData,
         _realParentElement:vm._realElement,//内部参数
     });
     let hooks = {
@@ -69,7 +72,8 @@ export function createComponent(vm,tagName,data,children,options){
             }else{
                 let componentClass = yElement.getComponentClass();
                 yElement.componentInstance = new componentClass({
-                    _realParentElement:realParentElement
+                    _realParentElement:realParentElement,
+                    propsData:yElement.getPropsData()
                 });
                 yElement.componentInstance.$mount();//执行渲染
             }
@@ -83,7 +87,8 @@ export function createComponent(vm,tagName,data,children,options){
     let componentClass = baseCrl.extend(componentConfig);
     componentId++;
     return new YElement(vm,`yue-component-${componentId}`,finalData,undefined,{
-        componentClass:componentClass
+        componentClass:componentClass,
+        propsData
     });
 }
 export default YElement;
