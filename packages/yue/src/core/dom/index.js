@@ -1,18 +1,25 @@
-import {render} from '../../y-element/render';
-import {callLifeHook} from '../hook'
-export function mount(vm,el){
-    if(typeof el === 'string'){
+import {
+    render
+} from '../../y-element/render';
+import {
+    callLifeHook
+} from '../hook'
+export function mount(vm, el) {
+    if (typeof el === 'string') {
         el = document.querySelector(el);
     }
-    //判断是否已经挂载
-    if(vm._realRootElement){
-        
+    //是否首次挂在
+    if (!vm._realElement) {
+        //首次挂载
+        vm._realElement = el;
+        callLifeHook(vm, 'beforeMount');
         vm._update();
-    }else{
-        vm._mountedElement = el;
-        vm._realRootElement = render(vm._yNode,el);
-        //首次
-        callLifeHook(vm,'mounted')
+        callLifeHook(vm, 'mounted')
+    } else {
+        callLifeHook(vm, 'beforeUpdate');
+        vm._update();
+        callLifeHook(vm, 'updated')
     }
+
 
 }
