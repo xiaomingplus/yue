@@ -20,7 +20,7 @@ class Yue{
 
     }
     constructor(props) {
-        debug('init props',props);
+        debug('init options',props);
         this.$options = Object.assign(props,this.constructor.options);
         let data = props.data || {};
         this._yid = yid++;
